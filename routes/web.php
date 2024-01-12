@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\InicioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', InicioController::class)->name('inicio');
+
+/*Route::get('animales',[AnimalController::class,'index'])->name('animales.index');
+Route::get('animales/create',[AnimalController::class,'create'])->name('animales.create');
+Route::get('animales/{animal}',[AnimalController::class,'show'])->name('animales.show');
+Route::get("animales/{animal}/edit",[AnimalController::class,'edit'])->name('animales.edit');
+
+Esto se puede hacer en un grupo como se muestra abajo*/
+
+Route::controller(AnimalController::class)->group(function () {
+    Route::get('animales', 'index')->name('animales.index');
+    Route::get('animales/create', 'create')->name('animales.create');
+    Route::get('animales/{animal}', 'show')->name('animales.show');
+    Route::get('animales/{animal}/edit', 'edit')->name('animales.edit');
 });
