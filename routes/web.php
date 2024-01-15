@@ -30,3 +30,5 @@ Route::controller(AnimalController::class)->group(function () {
     Route::get('animales/{animal}', 'show')->name('animales.show');
     Route::get('animales/{animal}/edit', 'edit')->name('animales.edit');
 });
+
+Route::post('animales');
