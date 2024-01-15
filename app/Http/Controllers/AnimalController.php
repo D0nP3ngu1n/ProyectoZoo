@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use function Ramsey\Uuid\v1;
+
 class AnimalController extends Controller
 {
     /**
@@ -12,6 +14,7 @@ class AnimalController extends Controller
     public function index()
     {
         //
+        return view('animales.index');
     }
 
     /**
@@ -20,6 +23,7 @@ class AnimalController extends Controller
     public function create()
     {
         //
+        return view('animales.create');
     }
 
     /**
@@ -33,17 +37,19 @@ class AnimalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $animal)
     {
         //
+        return view('animales.show', ['animal' => $animal]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $animal)
     {
         //
+        return view('animales.edit', ['animal' => $animal]);
     }
 
     /**
