@@ -12,6 +12,6 @@ class InicioController extends Controller
     public function __invoke(Request $request)
     {
         //Message for the main page
-        return view('inicio');
+        return redirect()->action([AnimalController::class, 'index']);
     }
 }
