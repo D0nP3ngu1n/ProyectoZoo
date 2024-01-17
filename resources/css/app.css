@@ -11,3 +11,12 @@
     display: flex;
     flex-direction: column;
 }
+input {
+    border: 3px;
+}
+.boton {
+    background-color: #7b6ed6;
+    color: white;
+    border-radius: 5px;
+    width: 60px;
+}

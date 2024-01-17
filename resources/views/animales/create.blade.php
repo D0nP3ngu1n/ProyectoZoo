@@ -19,5 +19,5 @@
         <input type="text" name="descripcion" id="descripcion">
         <label for="imagen">Imagen:</label>
         <input type="file" name="imagen" id="imagen">
-        <input type="submit" name="enviar" id="enviar" value="CREAR" class="bverde">
+        <input type="submit" name="enviar" id="enviar" value="CREAR" class="boton">
     @endsection

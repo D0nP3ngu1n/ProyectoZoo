@@ -19,5 +19,5 @@
         <label for="imagen">Imagen:</label>
         <input type="file" name="imagen" id="imagen" value="{{ $animal['imagen'] }}">
         <img src="{{ asset('assets/imagenes/' . $animal['imagen']) }}" alt="{{ $animal['especie'] }}" width="300px">
-        <input type="submit" name="enviar" id="enviar" value="EDITAR" class="bverde" width="30px">
+        <input type="submit" name="enviar" id="enviar" value="EDITAR" class="boton">
     @endsection
