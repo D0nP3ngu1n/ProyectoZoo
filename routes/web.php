@@ -31,4 +31,5 @@ Route::controller(AnimalController::class)->group(function () {
     Route::get('animales/{animal}/edit', 'edit')->name('animales.edit');
 });
 
-Route::post('animales');
+Route::post('animales/store', [AnimalController::class, 'store'])->name('animales.store');
+Route::post('animales/update', [AnimalController::class, 'update'])->name('animales.update');

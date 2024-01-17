@@ -11,4 +11,6 @@
             Alimentación: {{ $animal['alimentacion'] }}
             Descripción: {{ $animal['descripcion'] }}</p>
     </div>
+    <a href="{{ route('animales.index', 0) }}" class="bverde">Volver</a>
+    <a href="{{ route('animales.edit', 0) }}" class="bverde">Editar</a>
 @endsection

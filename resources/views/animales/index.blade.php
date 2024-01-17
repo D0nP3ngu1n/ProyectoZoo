@@ -10,5 +10,6 @@
             FechaNac:{{ $animal['fechaNacimiento'] }}
             Alimentación: {{ $animal['alimentacion'] }}
             Descripción: {{ $animal['descripcion'] }}</p>
+        <a href="{{ route('animales.show', 0) }}" class="bverde">Ver</a>
     @endforeach
 @endsection
