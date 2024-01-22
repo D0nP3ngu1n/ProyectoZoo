@@ -2,8 +2,9 @@
 @section('titulo', 'Editar Animal')
 @section('contenido')
     <h1 class="text-3xl font-bold underline">Pagina para editar el animal {{ $animal['especie'] }}</h1>
-    <form action=""method="POST" enctype="multipart/form-data" class="formulario">
+    <form action="{{ route('animales.update', $animal) }}"method="PUT" enctype="multipart/form-data" class="formulario">
         @csrf
+        @method('put')
         <label for="especie">Especie:</label>
         <input type="text" name="especie" id="especie" value="{{ $animal->especie }}">
         <label for="peso">Peso:</label>

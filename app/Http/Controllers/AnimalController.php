@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CrearAnimalRequest;
 use Illuminate\Http\Request;
 use App\Models\Animal;
+use CreateUsersTable;
+
 use function Ramsey\Uuid\v1;
 
 class AnimalController extends Controller
@@ -31,9 +34,9 @@ class AnimalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CrearAnimalRequest $request)
     {
-        //
+        $name = $request->nombre;
     }
 
     /**

@@ -3,7 +3,7 @@
 @section('contenido')
     <h1 class="text-3xl font-bold underline">Página para añadir un animal</h1>
 
-    <form action=""method="POST" enctype="multipart/form-data" class="formulario">
+    <form action="{{ route('animales.store') }}"method="POST" enctype="multipart/form-data" class="formulario">
         @csrf
         <label for="especie">Especie:</label>
         <input type="text" name="especie" id="especie">
@@ -11,8 +11,8 @@
         <input type="text" name="peso" id="peso">
         <label for="altura">Altura:</label>
         <input type="text" name="altura" id="altura">
-        <label for="fecha">Fecha de Nacimiento:</label>
-        <input type="text" name="fecha" id="fecha">
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input type="text" name="fechaNacimiento" id="fechaNacimiento">
         <label for="dieta">Alimentación:</label>
         <input type="text" name="dieta" id="dieta">
         <label for="descripcion">Descripción:</label>
