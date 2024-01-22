@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         DB::table('animals')->delete();
+        $this->call(AnimalSeeder::class);
     }
 }

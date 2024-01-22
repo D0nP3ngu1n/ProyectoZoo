@@ -22,23 +22,23 @@ class CrearAnimalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'especie' => 'rquired|min:3',
+            'especie' => 'required|min:3',
             'peso' => 'required',
             'altura' => 'required',
             'fechaNacimiento' => 'required',
-            'imagen' => 'required|mimes:jpg,png,jpg,svg',
+            'imagen' => 'required|image|mimes:jpg,png,jpg,svg',
         ];
     }
     public function messages()
     {
         return [
             'especie.required' => 'El campo especie es obligatorio',
-            'especie.min:3' => 'El campo especie debe tener al menos 3 caracteres',
+            'especie.min' => 'El campo especie debe tener al menos 3 caracteres',
             'peso.required' => 'El campo peso es obligatorio',
             'altura.required' => 'El campo altura es obligatorio',
             'fechaNacimiento.required' => 'El campo fecha de Nacimiento es obligatorio',
             'imagen,required' => 'El campo imagen es obligatorio',
-            'imagen.mimes:jpg,png,jpg,svg' => 'El formato de imagen tiene que ser jpg, png,jpg o svg',
+            'imagen.mimes' => 'El formato de imagen tiene que ser jpg, png,jpg o svg',
         ];
     }
 }

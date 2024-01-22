@@ -18,7 +18,8 @@ return new class extends Migration
             $table->double('peso', 6, 1);
             $table->double('altura', 6, 1);
             $table->date('fechaNacimiento');
-            $table->string('imagen', 20)->nullable();
+            $table->string('alimentacion');
+            $table->string('imagen', 60)->nullable();
             $table->text('descripcion')->nullable();
             $table->timestamps();
         });

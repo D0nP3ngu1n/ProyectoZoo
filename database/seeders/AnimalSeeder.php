@@ -94,6 +94,7 @@ Son diurnos y viven preferentemente en el suelo. Forman grupos numerosos que se 
             'descripcion' => 'Se encuentra en el continente asiático; es un predador carnívoro y es la especie de félido más grande del mundo junto con el león pudiendo alcanzar ambos un tamaño comparable al de los fósiles de félidos de mayor tamaño'
         )
     );
+
     public function run(): void
     {
         //
@@ -101,8 +102,9 @@ Son diurnos y viven preferentemente en el suelo. Forman grupos numerosos que se 
                 $a = new Animal();
                 $a->especie = $animal['especie'];
                 $a->slug = Str::slug($animal['especie']);
-                $a->peso = $animal['altura'];
-                $a->fechaNaacimiento = $animal['fechaNacimiento'];
+                $a->peso = $animal['peso'];
+                $a->altura = $animal['altura'];
+                $a->fechaNacimiento = $animal['fechaNacimiento'];
                 $a->imagen = $animal['imagen'];
                 $a->alimentacion = $animal['alimentacion'];
                 $a->descripcion = $animal['descripcion'];

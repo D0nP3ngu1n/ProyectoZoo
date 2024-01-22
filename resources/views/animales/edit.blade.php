@@ -2,7 +2,17 @@
 @section('titulo', 'Editar Animal')
 @section('contenido')
     <h1 class="text-3xl font-bold underline">Pagina para editar el animal {{ $animal['especie'] }}</h1>
-    <form action="{{ route('animales.update', $animal) }}"method="PUT" enctype="multipart/form-data" class="formulario">
+    @if ($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4 ml-4 mb-6" role="alert">
+            <strong class="font-bold">Hubo errores al rellenar el formulario:</strong>
+            <ul class="mt-3 list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <form action="{{ route('animales.update', $animal) }}" enctype="multipart/form-data" class="formulario">
         @csrf
         @method('put')
         <label for="especie">Especie:</label>
