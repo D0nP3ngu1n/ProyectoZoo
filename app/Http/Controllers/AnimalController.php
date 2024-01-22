@@ -48,10 +48,10 @@ class AnimalController extends Controller
             $a->altura = $request->input('altura');
             $a->fechaNacimiento = $request->input('fechaNacimiento');
             $a->imagen = $request->imagen->store('', 'animales');
-            $a->alimentacion = $request->input('alimentacion');
+            $a->alimentacion = $request->input('dieta');
             $a->descripcion = $request->input('descripcion');
             $a->save();
-            return redirect()->action([AnimalController::class, ['show', $a]]);
+            return view('animales.show', ['animal', $a]);
         } catch (PDOException $e) {
             return $e->getMessage();
         }
