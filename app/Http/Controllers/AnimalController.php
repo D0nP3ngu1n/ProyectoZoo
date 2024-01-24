@@ -51,10 +51,10 @@ class AnimalController extends Controller
             $a->alimentacion = $request->input('dieta');
             $a->descripcion = $request->input('descripcion');
             $a->save();
+            return redirect()->route('animales.show', ['animal' => $a->especie]);
         } catch (PDOException $e) {
             return $e->getMessage();
         }
-        return view('animales.show')->with(['animal', $a]);
     }
 
     /**
@@ -63,8 +63,8 @@ class AnimalController extends Controller
     public function show(string $animal)
     {
         //
-        $animal = Animal::where('especie', $animal)->firstOrFail();
-        return view('animales.show')->with(['animal' => $animal]);
+        $ani = Animal::where('especie', $animal)->firstOrFail();
+        return view('animales.show')->with(['animal' => $ani]);
     }
 
     /**
@@ -73,8 +73,8 @@ class AnimalController extends Controller
     public function edit(string $animal)
     {
         //
-        $animal = Animal::where('especie', $animal)->firstOrFail();
-        return view('animales.edit')->with(['animal' => $animal]);
+        $ani = Animal::where('especie', $animal)->firstOrFail();
+        return view('animales.edit')->with(['animal' => $ani]);
     }
 
     /**
@@ -111,11 +111,10 @@ class AnimalController extends Controller
                 $animal->imagen = $request->imagen->store('', 'animales');
             }
             $animal->save();
-            return view('animales.show')->with(['animal', $animal->especie]);
+            return redirect()->route('animales.show', ['animal' => $animal->especie]);
         } catch (PDOException $e) {
             return $e->getMessage();
         }
-        return view('animales.show')->with(['animal', $animal->especie]);
     }
 
     /**
