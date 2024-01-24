@@ -37,7 +37,7 @@ class CrearAnimalRequest extends FormRequest
             'peso.required' => 'El campo peso es obligatorio',
             'altura.required' => 'El campo altura es obligatorio',
             'fechaNacimiento.required' => 'El campo fecha de Nacimiento es obligatorio',
-            'imagen,required' => 'El campo imagen es obligatorio',
+            'imagen.required' => 'El campo imagen es obligatorio',
             'imagen.mimes' => 'El formato de imagen tiene que ser jpg, png,jpg o svg',
         ];
     }

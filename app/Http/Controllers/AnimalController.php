@@ -51,20 +51,20 @@ class AnimalController extends Controller
             $a->alimentacion = $request->input('dieta');
             $a->descripcion = $request->input('descripcion');
             $a->save();
-            return view('animales.show', ['animal', $a]);
         } catch (PDOException $e) {
             return $e->getMessage();
         }
+        return view('animales.show')->with(['animal', $a]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Animal $animal)
+    public function show(string $animal)
     {
         //
-        $animal = Animal::first();
-        return view('animales.show', ['animal' => $animal]);
+        $animal = Animal::where('especie', $animal)->firstOrFail();
+        return view('animales.show')->with(['animal' => $animal]);
     }
 
     /**
@@ -73,8 +73,8 @@ class AnimalController extends Controller
     public function edit(string $animal)
     {
         //
-        $animal = Animal::first();
-        return view('animales.edit', ['animal' => $animal]);
+        $animal = Animal::where('especie', $animal)->firstOrFail();
+        return view('animales.edit')->with(['animal' => $animal]);
     }
 
     /**
@@ -84,36 +84,38 @@ class AnimalController extends Controller
     {
         $request->validate(
             [
-                'especie' => 'rquired|min:3',
+                'especie' => 'required|min:3',
                 'peso' => 'required',
                 'altura' => 'required',
-                'fechaNacimiento' => 'required',
-                'imagen' => 'required|iage|mimes:jpg,png,jpg,svg',
+                'imagen' => 'image|mimes:jpg,png,jpg,svg',
             ],
             [
                 'especie.required' => 'El campo especie es obligatorio',
                 'especie.min' => 'El campo especie debe tener al menos 3 caracteres',
                 'peso.required' => 'El campo peso es obligatorio',
                 'altura.required' => 'El campo altura es obligatorio',
-                'fechaNacimiento.required' => 'El campo fecha de Nacimiento es obligatorio',
-                'imagen,required' => 'El campo imagen es obligatorio',
                 'imagen.mimes' => 'El formato de imagen tiene que ser jpg, png,jpg o svg',
             ]
         );
-
-        $animal->especie = $request->input('especie');
-        $slug = Str::slug($request->input('especie'));
-        $animal->slug = $slug;
-        $animal->peso = $request->input('peso');
-        $animal->altura = $request->input('altura');
-        $animal->fechaNacimiento = $request->input('fechaNacimiento');
-        $animal->alimentacion = $request->input('alimentacion');
-        $animal->descripcion = $request->input('descripcion');
-
-        if ($request->hasFile('imagen')) {
-            Storage::disk('animales')->delete($animal->imagen);
-            $animal->imagen = $request->imagen->store('', 'animales');
+        try {
+            $animal->especie = $request->input('especie');
+            $slug = Str::slug($request->input('especie'));
+            $animal->slug = $slug;
+            $animal->peso = $request->input('peso');
+            $animal->altura = $request->input('altura');
+            $animal->fechaNacimiento = $request->input('fecha');
+            $animal->alimentacion = $request->input('dieta');
+            $animal->descripcion = $request->input('descripcion');
+            if ($request->hasFile('imagen')) {
+                Storage::disk('animales')->delete($animal->imagen);
+                $animal->imagen = $request->imagen->store('', 'animales');
+            }
+            $animal->save();
+            return view('animales.show')->with(['animal', $animal->especie]);
+        } catch (PDOException $e) {
+            return $e->getMessage();
         }
+        return view('animales.show')->with(['animal', $animal->especie]);
     }
 
     /**

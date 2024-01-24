@@ -12,7 +12,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('animales.update', $animal) }}" enctype="multipart/form-data" class="formulario">
+    <form action="{{ route('animales.update', $animal) }}" method="POST" enctype="multipart/form-data" class="formulario">
         @csrf
         @method('put')
         <label for="especie">Especie:</label>
@@ -22,7 +22,7 @@
         <label for="altura">Altura:</label>
         <input type="text" name="altura" id="altura" value="{{ $animal->altura }}">
         <label for="fecha">Fecha de Nacimiento:</label>
-        <input type="text" name="fecha" id="fecha" value="{{ $animal->fechaNacimiento }}">
+        <input type="date" name="fecha" id="fecha" value="{{ $animal->fechaNacimiento }}">
         <label for="dieta">Alimentación:</label>
         <input type="text" name="dieta" id="dieta" value="{{ $animal->alimentacion }}">
         <label for="descripcion">Descripción:</label>
