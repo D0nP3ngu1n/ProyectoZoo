@@ -26,9 +26,9 @@ Esto se puede hacer en un grupo como se muestra abajo*/
 
 Route::controller(AnimalController::class)->group(function () {
     Route::get('animales', 'index')->name('animales.index');
-    Route::get('animales/create', 'create')->name('animales.create');
+    Route::get('animales/create', 'create')->name('animales.create')->middleware('auth');
     Route::get('animales/{animal}', 'show')->name('animales.show');
-    Route::get('animales/{animal}/edit', 'edit')->name('animales.edit');
+    Route::get('animales/{animal}/edit', 'edit')->name('animales.edit')->middleware('auth');
 });
 
 Route::post('animales/store', [AnimalController::class, 'store'])->name('animales.store');
