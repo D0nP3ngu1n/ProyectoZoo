@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        //DB::table('animals')->delete();
+        DB::table('animals')->delete();
         DB::table('users')->delete();
-        //$this->call(AnimalSeeder::class);
+        $this->call(AnimalSeeder::class);
         $this->call(UserSeeder::class);
     }
 }

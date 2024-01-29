@@ -14,8 +14,26 @@
                 <a href="{{ route('animales.create') }}" class="text-white">Nuevo Animal</a>
             </div>
             <div class="flex flex-col text-center lg:flex-row">
-                <a href="#" class="bblanco mb-1 lg:mr-4 lg:mb-0">Iniciar Sesion</a>
-                <a href="#" class="bverde">Regístrate</a>
+                @guest
+                    <a href="{{ route('login') }}"
+                        class=" hover:bg-green-700 border-2 border-white
+                    text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-3">Iniciar
+                        sesión</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}"
+                            class="bg-green-500 hover:bg-green-700
+                        text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrarse</a>
+                    @endif
+                @else
+                    <span>{{ Auth::user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="{{ route('logout') }}"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold
+                            py-2 px-4 rounded focus:outline-none ml-3 focus:shadow-outline"
+                            onclick="event.preventDefault(); this.closest('form').submit();">Cerrar sesión</a>
+                    </form>
+                @endguest
             </div>
         </div>
     </div>
