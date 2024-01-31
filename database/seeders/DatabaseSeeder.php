@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         DB::table('animals')->delete();
         DB::table('users')->delete();
-        DB::table('revisiones')->truncate();
+        DB::table('revisiones')->delete();
         $this->call(AnimalSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(RevisionesSeeder::class);

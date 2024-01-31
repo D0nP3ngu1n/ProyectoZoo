@@ -9,4 +9,9 @@ class Revision extends Model
 {
     protected $table = 'revisiones';
     use HasFactory;
+
+    public function animal()
+    {
+        return $this->belongsTo(Animal::class);
+    }
 }
