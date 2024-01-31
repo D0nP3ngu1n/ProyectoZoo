@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redis;
 
 class Animal extends Model
 {
@@ -15,5 +16,9 @@ class Animal extends Model
     {
         $fechaFormateada = Carbon::parse($this->fechaNacimiento);
         return $fechaFormateada->diffInYears(Carbon::now());
+    }
+    public function revisiones()
+    {
+        return $this->hasMany(Revision::class);
     }
 }

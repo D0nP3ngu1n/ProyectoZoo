@@ -12,6 +12,7 @@
         Altura:{{ $animal->altura }}
         FechaNac:{{ $animal->fechaNacimiento }}
         Alimentación: {{ $animal->alimentacion }}
-        Descripción: {{ $animal->descripcion }}</p>
+        Descripción: {{ $animal->descripcion }}
+        Revisiones:{{ count($animal->revisiones) }}</p>
     @endforeach
 @endsection

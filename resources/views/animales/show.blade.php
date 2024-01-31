@@ -9,7 +9,15 @@
             Altura:{{ $animal->altura }}
             FechaNac:{{ $animal->fechaNacimiento }}
             Alimentación: {{ $animal->alimentacion }}
-            Descripción: {{ $animal->descripcion }}</p>
+            Descripción: {{ $animal->descripcion }}
+            Revisiones:
+            @foreach ($animal->revisiones as $revision)
+                <p>
+                    Fecha: {{ $revision->fecha }}
+                    Descripcion:{{ $revision->descripcion }}
+                </p>
+            @endforeach
+        </p>
     </div>
     <a href="{{ route('animales.index') }}" class="boton">Volver</a>
     <a href="{{ route('animales.edit', $animal->especie) }}" class="boton">Editar</a>
