@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
-        Schema::table('animals', function (Blueprint $table) {
-            $table->dropColumn('imagen');
-            $table->unsignedBigInteger('imagen_id')->nullable();
-            $table->foreign('imagen_id')->references('id')->on('images');
+        Schema::create('titulacions', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('slug');
+            $table->timestamps();
         });
     }
 
@@ -24,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
-
+        Schema::dropIfExists('titulacions');
     }
 };
