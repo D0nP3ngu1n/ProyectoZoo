@@ -23,7 +23,10 @@ class AnimalController extends Controller
     {
         //
         $animales = Animal::all();
-        return view('animales.index', ['animales' => $animales]);
+        return view('animales.index', [
+            'animales' => Animal::all(),
+            'imagenes' => Image::all()
+        ]);
     }
 
     /**
@@ -42,19 +45,22 @@ class AnimalController extends Controller
     {
         try {
             $a = new Animal();
+            $imagen = new Image();
             $a->especie = $request->input('especie');
             $slug = Str::slug($request->input('especie'));
             $a->slug = $slug;
             $a->peso = $request->input('peso');
             $a->altura = $request->input('altura');
             $a->fechaNacimiento = $request->input('fechaNacimiento');
-            $img = new Image();
-            $img->nombre = $request->imagen->store('', 'animales');
-            $img->url = 'assets/imagenes/' . $request->imagen->store('', 'animales');
-            $img->save();
-            $a->imagen_id = $img->id();
+            $imagenR = $request->file('imagen');
+            $nombreImagen = uniqid() . '_' . $imagenR->getClientOriginalName();
+            $imagenR->move(public_path('/assets/imagenes'), $nombreImagen);
+            $imagen->nombre = $nombreImagen;
+            $imagen->url = '/assets/imagenes' . $nombreImagen;
             $a->alimentacion = $request->input('dieta');
             $a->descripcion = $request->input('descripcion');
+            $imagen->save();
+            $a->imagen_id = $imagen->id();
             $a->save();
             return redirect()->route('animales.show', ['animal' => $a->especie]);
         } catch (PDOException $e) {
@@ -69,7 +75,9 @@ class AnimalController extends Controller
     {
         //
         $ani = Animal::where('slug', $animal)->firstOrFail();
-        return view('animales.show')->with(['animal' => $ani]);
+        $imagen = Image::where('id', $ani->imagen_id)->firstOrFail();
+
+        return view('animales.show', ['animal' => $ani, 'imagen' => $imagen]);
     }
 
     /**
@@ -129,8 +137,10 @@ class AnimalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Animal $animal, Image $imagen)
     {
         //
+        $animal->delete();
+        Storage::disk('animales')->delete($imagen->nombre);
     }
 }

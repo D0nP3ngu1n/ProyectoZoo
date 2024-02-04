@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::table('animals', function ($table) {
+        Schema::table('animals', function (Blueprint $table) {
             $table->dropColumn('imagen');
+            $table->unsignedBigInteger('imagen_id')->nullable;
+            $table->foreign('imagen_id')->references('id')->on('images');
         });
     }
 
