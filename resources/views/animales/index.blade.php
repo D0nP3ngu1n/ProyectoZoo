@@ -6,7 +6,7 @@
         <img src="{{ asset('assets/imagenes/' . $animal->imagen) }}" alt="{{ $animal->especie }}">
         <p>
         <h2 class="text-xl font-semibold mb-2">
-            <a href="{{ route('animales.show', $animal->especie) }}">{{ $animal->especie }}</a>
+            <a href="{{ route('animales.show', $animal->slug) }}">{{ $animal->especie }}</a>
         </h2>
         Peso: {{ $animal->peso }}
         Altura:{{ $animal->altura }}

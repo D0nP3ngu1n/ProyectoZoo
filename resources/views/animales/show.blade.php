@@ -20,5 +20,6 @@
         </p>
     </div>
     <a href="{{ route('animales.index') }}" class="boton">Volver</a>
-    <a href="{{ route('animales.edit', $animal->especie) }}" class="boton">Editar</a>
+    <a href="{{ route('animales.edit', $animal->slug) }}" class="boton">Editar</a>
+    <a href="{{ route('revisiones.crear', $animal->slug) }}" class="boton">Nueva revision</a>
 @endsection

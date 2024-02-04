@@ -21,4 +21,8 @@ class Animal extends Model
     {
         return $this->hasMany(Revision::class);
     }
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
