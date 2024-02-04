@@ -21,10 +21,11 @@ class RevisionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(string $animal)
     {
         //
-        return view('revisiones.crear');
+        $ani = Animal::where('slug', $animal)->firstOrFail();
+        return view('revisiones.revisiones')->with(['animal' => $ani]);
     }
 
     /**
@@ -32,11 +33,22 @@ class RevisionController extends Controller
      */
     public function store(Request $request, string $animal)
     {
+        $request->validate(
+            [
+                'fecha' => 'required',
+                'descripcion' => 'required',
+
+            ],
+            [
+                'fecha.required' => 'El campo fecha es obligatorio',
+                'descripcion.required' => 'El campo descripcion es obligatorios',
+            ]
+        );
         try {
             $animal = Animal::where('slug', $animal)->firstOrFail();
             $a = new Revision();
             $a->fecha = $request->input('fecha');
-            $a->descripcion->$request->input('descripcion');
+            $a->descripcion->$request->input('desc');
             $a->animal_id = $animal->id;
             $a->save();
             return redirect()->route('animales.show', ['animal' => $a->especie]);

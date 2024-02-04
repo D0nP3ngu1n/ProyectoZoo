@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CrearAnimalRequest;
 use Illuminate\Http\Request;
 use App\Models\Animal;
+use App\Models\Image;
 use Illuminate\Support\Str;
 use PDOException;
 use CreateUsersTable;
@@ -47,7 +48,11 @@ class AnimalController extends Controller
             $a->peso = $request->input('peso');
             $a->altura = $request->input('altura');
             $a->fechaNacimiento = $request->input('fechaNacimiento');
-            $a->imagen = $request->imagen->store('', 'animales');
+            $img = new Image();
+            $img->nombre = $request->imagen->store('', 'animales');
+            $img->url = 'assets/imagenes/' . $request->imagen->store('', 'animales');
+            $img->save();
+            $a->imagen_id = $img->id();
             $a->alimentacion = $request->input('dieta');
             $a->descripcion = $request->input('descripcion');
             $a->save();
@@ -63,7 +68,7 @@ class AnimalController extends Controller
     public function show(string $animal)
     {
         //
-        $ani = Animal::where('especie', $animal)->firstOrFail();
+        $ani = Animal::where('slug', $animal)->firstOrFail();
         return view('animales.show')->with(['animal' => $ani]);
     }
 
@@ -73,7 +78,7 @@ class AnimalController extends Controller
     public function edit(string $animal)
     {
         //
-        $ani = Animal::where('especie', $animal)->firstOrFail();
+        $ani = Animal::where('slug', $animal)->firstOrFail();
         return view('animales.edit')->with(['animal' => $ani]);
     }
 
@@ -108,7 +113,11 @@ class AnimalController extends Controller
             $animal->descripcion = $request->input('descripcion');
             if ($request->hasFile('imagen')) {
                 Storage::disk('animales')->delete($animal->imagen);
-                $animal->imagen = $request->imagen->store('', 'animales');
+                $img = new Image();
+                $img->nombre = $request->imagen->store('', 'animales');
+                $img->url = 'assets/imagenes/' . $request->imagen->store('', 'animales');
+                $img->save();
+                $animal->imagen_id = $img->id();
             }
             $animal->save();
             return redirect()->route('animales.show', ['animal' => $animal->especie]);
