@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\CuidadorController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\RestWebServiceController;
 use App\Http\Controllers\RevisionController;
 use App\Http\Controllers\TitulacionController;
 use Illuminate\Support\Facades\Route;
@@ -51,4 +52,11 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+Route::controller(RestWebServiceController::class)->group(function () {
+    Route::get('rest', 'index')->name('rest');
+    Route::get('rest/{animal}', 'show')->name('rest.show');
+    Route::get('rest/{animal}/borrar', 'destroy')->name('rest.destroy');
+    Route::post('rest/insertar', 'store')->name('rest.destroy');
 });
