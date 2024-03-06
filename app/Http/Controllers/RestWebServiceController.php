@@ -17,10 +17,8 @@ class RestWebServiceController extends Controller
     public function index()
     {
         //
-        return view('animales.index', [
-            'animales' => Animal::all(),
-            'imagenes' => Image::all()
-        ]);
+        $animales = Animal::all();
+        return response()->json($animales);
     }
 
     /**
@@ -70,7 +68,7 @@ class RestWebServiceController extends Controller
                 $animal->imagen_id = $img->id();
             }
             $animal->save();
-            return redirect()->route('animales.show', ['animal' => $animal->especie]);
+            return response()->json($animal);
         } catch (PDOException $e) {
             return $e->getMessage();
         }
@@ -85,7 +83,7 @@ class RestWebServiceController extends Controller
         $ani = Animal::where('slug', $animal)->firstOrFail();
         $imagen = Image::where('id', $ani->imagen_id)->firstOrFail();
 
-        return view('animales.show', ['animal' => $ani, 'imagen' => $imagen]);
+        return response()->json($ani, $imagen);
     }
 
     /**
@@ -112,5 +110,6 @@ class RestWebServiceController extends Controller
         //
         $animal->delete();
         Storage::disk('animales')->delete($imagen->nombre);
+        return response()->json(['mensaje' => 'Animal Borrado']);
     }
 }

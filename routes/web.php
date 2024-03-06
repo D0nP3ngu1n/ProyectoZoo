@@ -42,7 +42,13 @@ Route::get('/cuidadores/{cuidador}', [CuidadorController::class, "show"])->name(
 Route::get('/titulaciones/{titulacion}', [TitulacionController::class, "show"])->name("titulaciones.show");
 Route::put('animales/{animal}', [AnimalController::class, 'update'])->name('animales.update');
 
+
 Route::delete("/animales/{animal}", [AnimalController::class, "destroy"])->name("animales.destroy");
+
+Route::get('rest', [RestWebServiceController::class, "index"])->name('rest.index');
+Route::get('rest/{animal}', [RestWebServiceController::class, "show"])->name('rest.show');
+Route::post('rest/insertar', [RestWebServiceController::class, "store"])->name('rest.store');
+Route::delete('rest/{animal}/borrar', [RestWebServiceController::class, "destroy"])->name('rest.destroy');
 
 Route::middleware([
     'auth:sanctum',
