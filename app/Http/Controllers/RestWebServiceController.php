@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\Image;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use PDOException;
 
 class RestWebServiceController extends Controller
@@ -40,37 +42,30 @@ class RestWebServiceController extends Controller
                 'especie' => 'required|min:3',
                 'peso' => 'required',
                 'altura' => 'required',
-                'imagen' => 'image|mimes:jpg,png,jpg,svg',
             ],
             [
                 'especie.required' => 'El campo especie es obligatorio',
                 'especie.min' => 'El campo especie debe tener al menos 3 caracteres',
                 'peso.required' => 'El campo peso es obligatorio',
                 'altura.required' => 'El campo altura es obligatorio',
-                'imagen.mimes' => 'El formato de imagen tiene que ser jpg, png,jpg o svg',
             ]
         );
         try {
             $animal = new Animal();
-            $animal->especie = $request->input('especie');
-            $slug = Str::slug($request->input('especie'));
+            $animal->especie = $request->especie;
+            $slug = Str::slug($request->especie);
             $animal->slug = $slug;
-            $animal->peso = $request->input('peso');
-            $animal->altura = $request->input('altura');
-            $animal->fechaNacimiento = $request->input('fecha');
-            $animal->alimentacion = $request->input('dieta');
-            $animal->descripcion = $request->input('descripcion');
-            if ($request->hasFile('imagen')) {
-                $img = new Image();
-                $img->nombre = $request->imagen->store('', 'animales');
-                $img->url = 'assets/imagenes/' . $request->imagen->store('', 'animales');
-                $img->save();
-                $animal->imagen_id = $img->id();
-            }
+            $animal->peso = $request->peso;
+            $animal->altura = $request->altura;
+            $animal->fechaNacimiento = $request->fecha;
+            $animal->alimentacion = $request->dieta;
+            $animal->descripcion = $request->descripcion;
             $animal->save();
-            return response()->json($animal);
+            return response()->json(['mensaje' => 'animal creado correctamente']);
         } catch (PDOException $e) {
-            return $e->getMessage();
+            return response()->json(['mensaje' => 'Error al insertar en la base de datos: ' . $e->getMessage()]);
+        } catch (Exception $ex) {
+            return response()->json(['mensaje' => 'Error al insertar en la base de datos: ' . $ex->getMessage()]);
         }
     }
 
@@ -81,9 +76,7 @@ class RestWebServiceController extends Controller
     {
         //
         $ani = Animal::where('slug', $animal)->firstOrFail();
-        $imagen = Image::where('id', $ani->imagen_id)->firstOrFail();
-
-        return response()->json($ani, $imagen);
+        return response()->json($ani);
     }
 
     /**
@@ -97,19 +90,51 @@ class RestWebServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Animal $animal)
     {
         //
+        //$animal = Animal::where('slug', $animal)->firstOrFail();
+        $request->validate(
+            [
+                'especie' => 'min:3',
+            ],
+            [
+                'especie.min' => 'El campo especie debe tener al menos 3 caracteres',
+            ]
+        );
+        try {
+            $animal->especie = $request->especie;
+            $slug = Str::slug($request->especie);
+            $animal->slug = $slug;
+            $animal->peso = $request->peso;
+            $animal->altura = $request->altura;
+            $animal->fechaNacimiento = $request->fecha;
+            $animal->alimentacion = $request->dieta;
+            $animal->descripcion = $request->descripcion;
+            $animal->save();
+            return response()->json(['mensaje' => 'animal editado correctamente']);
+        } catch (PDOException $e) {
+            return response()->json(['mensaje' => 'Error al editar en la base de datos: ' . $e->getMessage()]);
+        } catch (Exception $ex) {
+            return response()->json(['mensaje' => 'Error al editar en la base de datos: ' . $ex->getMessage()]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Animal $animal, Image $imagen)
+    public function destroy(Animal $animal)
     {
-        //
-        $animal->delete();
-        Storage::disk('animales')->delete($imagen->nombre);
-        return response()->json(['mensaje' => 'Animal Borrado']);
+        try {
+            if (!$animal) {
+                return response()->json(['mensaje' => 'Animal no encontrado'], 404);
+            }
+            $animal->delete();
+            return response()->json(['mensaje' => 'Animal Borrado']);
+        } catch (PDOException $e) {
+            return response()->json(['mensaje' => 'Error al eliminar de la base de datos: ' . $e->getMessage()]);
+        } catch (Exception $ex) {
+            return response()->json(['mensaje' => 'Error al eliminar: ' . $ex->getMessage()]);
+        }
     }
 }

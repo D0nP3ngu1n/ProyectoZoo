@@ -64,5 +64,6 @@ Route::controller(RestWebServiceController::class)->group(function () {
     Route::get('rest', 'index')->name('rest');
     Route::get('rest/{animal}', 'show')->name('rest.show');
     Route::get('rest/{animal}/borrar', 'destroy')->name('rest.destroy');
+    Route::put('rest/{animal}/update', 'update')->name('rest.update');
     Route::post('rest/insertar', 'store')->name('rest.destroy');
 });
